@@ -1,0 +1,542 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AzureTableStorage.Emulator.InMemory</name>
+    </assembly>
+    <members>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Ast.AstVisitor`1">
+            <summary>
+            AST visitor responsible for traversing expression nodes
+            </summary>
+            <typeparam name="T">The table entity type</typeparam>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Ast.AstVisitor`1.VisitInfix(AzureTableStorage.Emulator.InMemory.Ast.InfixExpressionNode,System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>
+            Recursively visit all nodes, starting with a root infix node
+            </summary>
+            <param name="node">The root <see cref="T:AzureTableStorage.Emulator.InMemory.Ast.InfixExpressionNode"/></param>
+            <param name="table">The target in memory table</param>
+            <returns>A result table</returns>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Ast.ColumnNode">
+            <summary>
+            Expression node representing a table column
+            </summary>
+        </member>
+        <member name="P:AzureTableStorage.Emulator.InMemory.Ast.ColumnNode.Value">
+            <summary>
+            Gets or sets the column value
+            </summary>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Ast.ExpressionNode">
+            <summary>
+            Base expression node
+            </summary>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Ast.InfixExpressionNode">
+            <summary>
+            Expression node representing a an operation between two other nodes
+            </summary>
+        </member>
+        <member name="P:AzureTableStorage.Emulator.InMemory.Ast.InfixExpressionNode.Verb">
+            <summary>
+            Gets or sets the verb
+            </summary>
+        </member>
+        <member name="P:AzureTableStorage.Emulator.InMemory.Ast.InfixExpressionNode.Left">
+            <summary>
+            Gets or sets the left <see cref="T:AzureTableStorage.Emulator.InMemory.Ast.ExpressionNode"/>
+            </summary>
+        </member>
+        <member name="P:AzureTableStorage.Emulator.InMemory.Ast.InfixExpressionNode.Right">
+            <summary>
+            Gets or sets the right <see cref="T:AzureTableStorage.Emulator.InMemory.Ast.ExpressionNode"/>
+            </summary>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Ast.TargetNode">
+            <summary>
+            Node representing the target
+            </summary>
+        </member>
+        <member name="P:AzureTableStorage.Emulator.InMemory.Ast.TargetNode.Value">
+            <summary>
+            Gets or sets the value
+            </summary>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.DictionaryExtensions">
+            <summary>
+            Dictionary extensions
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.DictionaryExtensions.GetOrCreate``2(System.Collections.Generic.IDictionary{``0,``1},``0)">
+            <summary>
+            Get the value if it exists, or create, set and return it
+            </summary>
+            <typeparam name="T">The type of the key</typeparam>
+            <typeparam name="U">The type of the value</typeparam>
+            <param name="dict">The target dictionary</param>
+            <param name="key">The target key</param>
+            <returns><typeparamref name="U"/></returns>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Extensions.TableOperationExtensions">
+            <summary>
+            Table operation extensions
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Extensions.TableOperationExtensions.PartitionKey(Microsoft.WindowsAzure.Storage.Table.TableOperation)">
+            <summary>
+            Retrieve the partition key from <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableOperation"/>
+            </summary>
+            <param name="table">The target <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableOperation"/></param>
+            <returns>The partition key</returns>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Extensions.TableOperationExtensions.RowKey(Microsoft.WindowsAzure.Storage.Table.TableOperation)">
+            <summary>
+            Retrieve the partition key from <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableOperation"/>
+            </summary>
+            <param name="table">The target <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableOperation"/></param>
+            <returns>The row key</returns>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Extensions.TableOperationExtensions.Etag(Microsoft.WindowsAzure.Storage.Table.TableOperation)">
+            <summary>
+            Retrieve the partition key from <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableOperation"/>
+            </summary>
+            <param name="table">The target <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableOperation"/></param>
+            <returns>The etag</returns>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Factory.TableQueryFactory">
+            <summary>
+            Factory class to generate <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableQuerySegment`1"/> and <see cref="T:Microsoft.WindowsAzure.Storage.ResultSegment`1"/>
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Factory.TableQueryFactory.Construct``1(Microsoft.WindowsAzure.Storage.ResultSegment{``0})">
+            <summary>
+            Construct a <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableQuerySegment`1"/> from a <see cref="T:Microsoft.WindowsAzure.Storage.ResultSegment`1"/>
+            </summary>
+            <typeparam name="T">The type</typeparam>
+            <param name="resultSegment">The result segment to use as constructor parameter</param>
+            <returns>A <see cref="T:Microsoft.WindowsAzure.Storage.Table.TableQuerySegment`1"/></returns>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Factory.TableQueryFactory.Construct``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Construct a <see cref="T:Microsoft.WindowsAzure.Storage.ResultSegment`1"/> from a <see cref="T:System.Collections.Generic.List`1"/>
+            </summary>
+            <typeparam name="T">The type</typeparam>
+            <param name="result">The result list to use as constructor parameter</param>
+            <returns>A <see cref="T:Microsoft.WindowsAzure.Storage.ResultSegment`1"/></returns>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Impl.CloudTableClientWrapper">
+            <summary>
+            Wrapper class that exposes to <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTableClient"/>
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.CloudTableClientWrapper.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.CloudTableClientWrapper"/> class.
+            </summary>
+            <param name="connectionString">The storage connection string. If null is passed, in memory storage is used</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.CloudTableClientWrapper.GetTableReference(System.String)">
+            <summary>
+            Get a <see cref="T:Microsoft.WindowsAzure.Storage.Table.CloudTable"/> or a <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable"/>
+            </summary>
+            <param name="tableName">The table name</param>
+            <returns>A <see cref="T:Microsoft.WindowsAzure.Storage.Table.CloudTable"/> or a <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable"/></returns>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable">
+            <summary>
+            An in memory table implementation
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable"/> class.
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable.#ctor(System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable"/> class.
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable.CreateIfNotExistsAsync">
+            <summary>
+            Create the table if it does not exist
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable.ExecuteQuerySegmentedAsync``1(Microsoft.WindowsAzure.Storage.Table.TableQuery{``0},Microsoft.WindowsAzure.Storage.Table.TableContinuationToken)">
+            <summary>
+            In memory implementation of <see cref="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable.ExecuteQuerySegmentedAsync``1(Microsoft.WindowsAzure.Storage.Table.TableQuery{``0},Microsoft.WindowsAzure.Storage.Table.TableContinuationToken)"/>
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable.ExecuteAsync(Microsoft.WindowsAzure.Storage.Table.TableOperation)">
+            <summary>
+            In memory implementation of <see cref="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable.ExecuteAsync(Microsoft.WindowsAzure.Storage.Table.TableOperation)"/>
+            </summary>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTableClient">
+            <summary>
+            The in memory table collection holder
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTableClient.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTableClient"/> class.
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTableClient.#ctor(System.Uri,Microsoft.WindowsAzure.Storage.Auth.StorageCredentials)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTableClient"/> class.
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTableClient.GetTableReference(System.String)">
+            <summary>
+            Get a <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable"/>, creating a new one if it does not exist
+            </summary>
+            <param name="name">The table name</param>
+            <returns>A <see cref="T:AzureTableStorage.Emulator.InMemory.Impl.InMemoryTable"/></returns>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.QueryFilterLexer">
+            <summary>
+            Partial stub
+            </summary>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.QueryFilterParser">
+            <summary>
+            Partial stub
+            </summary>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.QueryFilterVisitor">
+            <summary>
+            Grammar visitor implementation
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterVisitor.VisitOp(AzureTableStorage.Emulator.InMemory.QueryFilterParser.OpContext)">
+            <summary>
+            Visit Operation node
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterVisitor.VisitSymmetric(AzureTableStorage.Emulator.InMemory.QueryFilterParser.SymmetricContext)">
+            <summary>
+            Visit Symmetric node
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterVisitor.VisitLeftRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.LeftRecursiveContext)">
+            <summary>
+            Visit left recursive node
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterVisitor.VisitRightRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.RightRecursiveContext)">
+            <summary>
+            Visit right recursive node
+            </summary>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.IQueryFilterListener">
+            <summary>
+            This interface defines a complete listener for a parse tree produced by
+            <see cref="T:AzureTableStorage.Emulator.InMemory.QueryFilterParser"/>.
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.EnterQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.QueryContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.query"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.ExitQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.QueryContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.query"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.EnterSymmetric(AzureTableStorage.Emulator.InMemory.QueryFilterParser.SymmetricContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.symmetric"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.ExitSymmetric(AzureTableStorage.Emulator.InMemory.QueryFilterParser.SymmetricContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.symmetric"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.EnterLeftRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.LeftRecursiveContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.leftRecursive"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.ExitLeftRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.LeftRecursiveContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.leftRecursive"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.EnterRightRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.RightRecursiveContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.rightRecursive"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.ExitRightRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.RightRecursiveContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.rightRecursive"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.EnterNestedQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.NestedQueryContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.nestedQuery"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.ExitNestedQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.NestedQueryContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.nestedQuery"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.EnterOp(AzureTableStorage.Emulator.InMemory.QueryFilterParser.OpContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.op"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterListener.ExitOp(AzureTableStorage.Emulator.InMemory.QueryFilterParser.OpContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.op"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener">
+            <summary>
+            This class provides an empty implementation of <see cref="T:AzureTableStorage.Emulator.InMemory.IQueryFilterListener"/>,
+            which can be extended to create a listener which only needs to handle a subset
+            of the available methods.
+            </summary>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.EnterQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.QueryContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.query"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.ExitQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.QueryContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.query"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.EnterSymmetric(AzureTableStorage.Emulator.InMemory.QueryFilterParser.SymmetricContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.symmetric"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.ExitSymmetric(AzureTableStorage.Emulator.InMemory.QueryFilterParser.SymmetricContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.symmetric"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.EnterLeftRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.LeftRecursiveContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.leftRecursive"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.ExitLeftRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.LeftRecursiveContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.leftRecursive"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.EnterRightRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.RightRecursiveContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.rightRecursive"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.ExitRightRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.RightRecursiveContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.rightRecursive"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.EnterNestedQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.NestedQueryContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.nestedQuery"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.ExitNestedQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.NestedQueryContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.nestedQuery"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.EnterOp(AzureTableStorage.Emulator.InMemory.QueryFilterParser.OpContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.op"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.ExitOp(AzureTableStorage.Emulator.InMemory.QueryFilterParser.OpContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.op"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.EnterEveryRule(Antlr4.Runtime.ParserRuleContext)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.ExitEveryRule(Antlr4.Runtime.ParserRuleContext)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.VisitTerminal(Antlr4.Runtime.Tree.ITerminalNode)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseListener.VisitErrorNode(Antlr4.Runtime.Tree.IErrorNode)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.IQueryFilterVisitor`1">
+            <summary>
+            This interface defines a complete generic visitor for a parse tree produced
+            by <see cref="T:AzureTableStorage.Emulator.InMemory.QueryFilterParser"/>.
+            </summary>
+            <typeparam name="Result">The return type of the visit operation.</typeparam>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterVisitor`1.VisitQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.QueryContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.query"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterVisitor`1.VisitSymmetric(AzureTableStorage.Emulator.InMemory.QueryFilterParser.SymmetricContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.symmetric"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterVisitor`1.VisitLeftRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.LeftRecursiveContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.leftRecursive"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterVisitor`1.VisitRightRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.RightRecursiveContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.rightRecursive"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterVisitor`1.VisitNestedQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.NestedQueryContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.nestedQuery"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.IQueryFilterVisitor`1.VisitOp(AzureTableStorage.Emulator.InMemory.QueryFilterParser.OpContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.op"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="T:AzureTableStorage.Emulator.InMemory.QueryFilterBaseVisitor`1">
+            <summary>
+            This class provides an empty implementation of <see cref="T:AzureTableStorage.Emulator.InMemory.IQueryFilterVisitor`1"/>,
+            which can be extended to create a visitor which only needs to handle a subset
+            of the available methods.
+            </summary>
+            <typeparam name="Result">The return type of the visit operation.</typeparam>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseVisitor`1.VisitQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.QueryContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.query"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseVisitor`1.VisitSymmetric(AzureTableStorage.Emulator.InMemory.QueryFilterParser.SymmetricContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.symmetric"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseVisitor`1.VisitLeftRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.LeftRecursiveContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.leftRecursive"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseVisitor`1.VisitRightRecursive(AzureTableStorage.Emulator.InMemory.QueryFilterParser.RightRecursiveContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.rightRecursive"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseVisitor`1.VisitNestedQuery(AzureTableStorage.Emulator.InMemory.QueryFilterParser.NestedQueryContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.nestedQuery"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:AzureTableStorage.Emulator.InMemory.QueryFilterBaseVisitor`1.VisitOp(AzureTableStorage.Emulator.InMemory.QueryFilterParser.OpContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:AzureTableStorage.Emulator.InMemory.QueryFilterParser.op"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+    </members>
+</doc>

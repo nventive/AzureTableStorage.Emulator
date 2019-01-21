@@ -28,6 +28,15 @@ steps:
       platform: 'Any CPU'
       msbuildArguments: /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)
 
+  - powershell: Build/Sign-Package.ps1
+    env:
+      SignClientUser: $(SignClientUser)
+      SignClientSecret: $(SignClientSecret)
+      SignPackageName: "Azure Storage Table Emulator"
+      SignPackageDescription: "Azure Storage Table Emulator"
+      ArtifactDirectory: $(Build.ArtifactStagingDirectory)
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+
   - task: PublishBuildArtifacts@1
     inputs:
       ArtifactName: AzureTableStorage.Emulator 

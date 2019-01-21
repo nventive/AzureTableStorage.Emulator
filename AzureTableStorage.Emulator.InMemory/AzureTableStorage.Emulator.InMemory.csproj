@@ -6,6 +6,8 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
+	<Import Project="NuGet.props" />
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>C:\P\AzureTableStorage.Emulator\AzureTableStorage.Emulator.InMemory\AzureTableStorage.Emulator.InMemory.xml</DocumentationFile>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>

@@ -33,6 +33,12 @@ namespace AzureTableStorage.Emulator.InMemory.Impl
 		}
 
 		/// <summary>
+		/// Gets the default request options for the underlying <see cref="CloudTableClient"/>
+		/// </summary>
+		/// <remarks>In case of in memory storage, creates a new <see cref="TableRequestOptions"/> object</remarks>
+		public TableRequestOptions DefaultRequestOptions => _normal?.DefaultRequestOptions ?? new TableRequestOptions();
+
+		/// <summary>
 		/// Get a <see cref="CloudTable"/> or a <see cref="InMemoryTable"/>
 		/// </summary>
 		/// <param name="tableName">The table name</param>

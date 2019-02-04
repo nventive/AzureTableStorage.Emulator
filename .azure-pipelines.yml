@@ -1,0 +1,42 @@
+pool:
+  name: Hosted VS2017
+
+trigger:
+  branches:
+    include:
+      - master
+      - beta
+      - stable
+
+steps:
+  - checkout: self
+    clean: true
+
+  - task: NuGetToolInstaller@0
+    inputs:
+      versionSpec: 4.7.1
+
+  - task: NuGetCommand@2
+    inputs:
+      command: restore
+      includeNuGetOrg: true
+
+  - task: MSBuild@1
+    inputs:
+      solution: AzureTableStorage.Emulator.InMemory.sln
+      configuration: Release
+      platform: 'Any CPU'
+      msbuildArguments: /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)
+
+  - powershell: Build/Sign-Package.ps1
+    env:
+      SignClientUser: $(SignClientUser)
+      SignClientSecret: $(SignClientSecret)
+      SignPackageName: "Azure Storage Table Emulator"
+      SignPackageDescription: "Azure Storage Table Emulator"
+      ArtifactDirectory: $(Build.ArtifactStagingDirectory)
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      ArtifactName: AzureTableStorage.Emulator 

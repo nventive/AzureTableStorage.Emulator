@@ -1,0 +1,12 @@
+<Project>
+    <PropertyGroup>
+        <PackageId>nventive.AzureTableStorage.Emulator</PackageId>
+        <Title>Azure Table Storage In-Memory Emulator</Title>
+        <Description>An Azure Table Storage in-memory emulator</Description>
+        <Authors>nventive</Authors>
+        <Owners>nventive</Owners>
+        <PackageIconUrl>https://nv-assets.azurewebsites.net/logos/nv_small_square_logo.jpg</PackageIconUrl>
+        <PackageProjectUrl>https://github.com/nventive/AzureTableStorage.Emulator</PackageProjectUrl>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    </PropertyGroup>
+</Project>
